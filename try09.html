@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>TRY09</title>
+		<script>
+			const score = Math.floor(Math.random() * 101);
+			document.write(`<p>あなたの点数は${score}点です。</p>`);
+
+			if (score == 100) {
+				result = "満点";
+			} else if (score >= 60) {
+				result = "合格";
+			} else {
+				result = "不合格";
+			}
+
+			document.write(`<p>${result}です！</p>`)
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
