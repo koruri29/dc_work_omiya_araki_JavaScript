@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>work12</title>
+		<script>
+			const class01 = {
+				'tokugawa': Math.floor(Math.random() * 100) + 1,
+				'oda': Math.floor(Math.random() * 100) + 1,
+				'toyotomi': Math.floor(Math.random() * 100) + 1,
+				'takeda': Math.floor(Math.random() * 100) + 1, 
+			}
+			const class02 = {
+				'minamoto': Math.floor(Math.random() * 100) + 1,
+				'taira': Math.floor(Math.random() * 100) + 1,
+				'sugawara': Math.floor(Math.random() * 100) + 1,
+				'fujiwara': Math.floor(Math.random() * 100) + 1,
+			}
+
+			if (class01.oda > class02.sugawara) {
+				document.write('odaさんの方が得点が高いです。');
+			} else if (class01.oda === class02.sugawara) {
+				document.write('odaさんとsugawaraさんの得点は同じです。')
+			} else {
+				document.write('sugawaraさんの方が得点が高いです。');
+			}
+
+			let totalOfClass01 = 0;
+			let totalOfClass02 = 0;
+
+			// for (const score in class01){
+			// 	totalOfClass01 += score;
+			// }
+			// for (const score in class02){
+			// 	totalOfClass02 += score;
+			// }
+
+console.log(totalOfClass01);
+			document.write(`class01の平均点は${totalOfClass01 / class01.length}です。`);
+			document.write(`class02の平均点は${totalOfClass02 / class02.length}です。`);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK07</title>
+		<script>
+			const num = Math.floor(Math.random() * 100) + 1;
+
+			switch (true) {
+				case num % 3 === 0 && num % 6 === 0:
+					document.write('<p>3と6の倍数です</p>');
+					break;
+				case num % 3 === 0 && num % 6 !== 0:
+					document.write('<p>3の倍数で、6の倍数ではありません</p>');
+					break;
+				default:
+				document.write('<p>倍数ではありません</p>')	
+			}
+
+			const random01 = Math.floor(Math.random() * 10) + 1;
+			const random02 = Math.floor(Math.random() * 10)	+ 1;
+			let result = `<p>random01 = ${random01}, random02 = ${random02}です。`;
+
+			switch(true) {
+				case random01 === random02:
+					result += '2つは同じ数です。';
+					break;
+				case random01 > random02:
+					result += 'random01の方が大きいです。';
+					break;
+				default:
+					result += 'random02の方が大きいです。';
+			}
+			switch(true) {
+				case random01 % 3 === 0 && random02 % 3 === 0:
+					result += '2つの数字のうち、3の倍数となる数字は2つです。';
+					break;
+				case random01 % 3 !== 0 && random02 % 3 !== 0:
+					result += '2つの数字のうち、3の倍数となる数はありません。';
+					break;
+				default:
+					result += '2つの数字のうち、3の倍数となる数字は1つです。';
+			}
+			
+			result += '</p>';
+			document.write(result);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

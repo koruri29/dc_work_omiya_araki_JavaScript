@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK08</title>
+		<script>
+			//work08-1
+			for (let i = 1; i < 101; i++) {
+				if (i % 3 ===0 && i % 4 === 0) {
+					document.write('<p>Fizz Buzz</p>');
+				} else if (i % 3 ===0 && i % 4 !== 0) {
+					document.write('<p>Fizz</p>');
+				}else if (i % 3 !==0 && i % 4 === 0) {
+					document.write('<p>Buzz</p>');
+				} else {
+					document.write('<p>' + i + '</p>');
+				}
+			}
+
+			//work08-2
+			for (let i = 1; i < 10; i++) {
+				let multipled = '<p>'
+				for (let j = 1; j < 10; j++) {
+					multipled += `${i} * ${j} = ${i * j}, `;
+				}
+				multipled += '</p>';
+				document.write(multipled);
+			}
+
+			//work08-3
+			for (let i = 1; i < 101; i++) {
+				console.log('!');
+				console.log('*'.repeat(i));
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
