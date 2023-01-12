@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK13</title>
+		<script>
+			const multiple_randint = (int) => {
+				let result;
+				if (int % 2 === 0) {
+					result = int * 10;
+					return result;
+				}
+				if (int % 2 === 1) {
+					result = int * 100;
+					return result;
+				}
+			}
+
+			const num = Math.floor(Math.random() * 10) + 1;
+			document.write(multiple_randint(num));
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

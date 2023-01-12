@@ -28,16 +28,15 @@
 			let totalOfClass01 = 0;
 			let totalOfClass02 = 0;
 
-			// for (const score in class01){
-			// 	totalOfClass01 += score;
-			// }
-			// for (const score in class02){
-			// 	totalOfClass02 += score;
-			// }
-
-console.log(totalOfClass01);
-			document.write(`class01の平均点は${totalOfClass01 / class01.length}です。`);
-			document.write(`class02の平均点は${totalOfClass02 / class02.length}です。`);
+			for (name in class01) {
+				totalOfClass01 += class01[name];
+			}
+			for (name in class02) {
+				totalOfClass02 += class02[name];
+			}
+			
+			document.write(`class01の平均点は${totalOfClass01 / Object.keys(class01).length}です。`);
+			document.write(`class02の平均点は${totalOfClass02 / Object.keys(class02).length}です。`);
 		</script>
 	</head>
 	<body>

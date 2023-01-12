@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>work16</title>
+		<script>
+			class Human {
+				constructor(name, age) {
+					this.name = name;
+					this.age = age;
+					this.calc_age = function() {
+						document.write(`<p>${name}さんは成人してから${age - 20}年経っています</p>`);
+					}
+				}
+			}
+
+			const taro = new Human('太郎', 28);
+			document.write('名前：' + taro.name + '　年齢：' + taro.age);
+			taro.calc_age();
+
+			const jiro = new Human('次郎', 22);
+			document.write('名前：' + jiro.name + '　年齢：' + jiro.age);
+			jiro.calc_age();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
