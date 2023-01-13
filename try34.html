@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>TRY34</title>
+		<div id="check_value">チェックしていません</div>
+		<label for="check">
+			<input type="checkbox" id="check">チェックボックス
+		</label>
+		<script>
+			const check = document.getElementById('check');
+			check.onchange = function() {
+				const checkbox_value = document.getElementById('check_value');
+				if (check.checked) {
+					check_value.textContent = 'チェックしました';
+				} else {
+					check_value.textContent = 'チェックしていません';
+				}
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

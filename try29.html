@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK23</title>
+		<div id="textbox">
+			<p id="element_1">要素1</p>
+		</div>
+		<script>
+			const element_1 = document.getElementById('element_1');
+			element_1.textContent = '変更後テキスト';
+
+			const textbox = document.getElementById('textbox');
+			textbox.style.backgroundColor = '#ffff00';
+
+			const element_2 = document.createElement('p');
+			element_2.textContent = '追加テキスト';
+			element_2.style.color = '#ff0000';
+			element_2.style.fontSize = 30 + 'px';
+
+			element_1.after(element_2);
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

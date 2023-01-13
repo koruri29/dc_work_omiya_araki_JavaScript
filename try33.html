@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>TRY33</title>
+		<style>
+			#button {background-color: #fff}
+		</style>
+	</head>
+	<body>
+		<input type="button" value="ボタン" id="button">
+		<script>
+			const button = document.getElementById('button');
+			button.onmouseover  = function() {
+				button.style.background = '#ffa500';
+			}
+			button.onmouseout = function() {
+				button.style.background = '#fff';
+			}
+		</script>
+	</body>
+</html>
