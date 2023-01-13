@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK19</title>
+		<script>
+			//function 01 (method 01)
+			function replaceJohnDoe(str, name) {
+				newStr = str.replaceAll(name, 'John Doe')
+				return newStr
+			}
+			const tongueTwister = 'Peter Piper picked a peck of pickled peppers, A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, Where’s the peck of pickled peppers Peter Piper picked?';
+			const newTongueTwister = replaceJohnDoe(tongueTwister, 'Peter Piper');
+			document.write(newTongueTwister);
+
+			//function 02 (method 02)
+			function showTime() {
+				const now = new Date();
+				const hour = now.getHours();
+				const minute= now.getMinutes();
+				const second = now.getSeconds();
+
+
+				const paddedHour = String(hour).padStart(2, '0');
+				const paddedMinute = String(minute).padStart(2, '0');
+				const paddedSecond = String(second).padStart(2, '0');
+
+				const time = `今は${paddedHour}時${paddedMinute}分${paddedSecond}秒です。`;
+				document.write(time);
+			}
+			showTime();
+
+			//function 03 (method 03)
+			function convertToUpperCase(str) {
+				newStr = str.toUpperCase();
+				return newStr;
+			}
+			const sleep = convertToUpperCase("It's time to go to bed!");
+			document.write(sleep);
+
+			//function 04 (method 04)
+			function repeatStr(str, num) {
+				return str.repeat(num);
+			}
+			wordPlay = '生麦生米生卵';
+			document.write(repeatStr(wordPlay, 3));
+
+			//function 05 (method 05)
+			function declareLove(name) {
+				declaration = `${name}が大好き！結婚して！`;
+				return document.write(declaration);
+			}
+			declareLove('小栗旬');
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
