@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK26</title>
+		<style>
+			body {background-color: #e6f6ff;}
+			#container {margin: 0 auto; width: 270px; margin-bottom: 20px;
+				padding: 20px; background-color: #fff;
+			}
+			#display {margin: 0; padding: 20px 20px; background-color: #ccc;
+				font-size: 40px; text-align: center;
+			}
+			#buttons {display: flex; justify-content: center;}
+			button {all: unset; width:90px; padding: 10px; color: #fff;
+				background-color: #08c; border: 1px solid #fff;
+				text-align: center; cursor: pointer;
+			}
+			.disabled {opacity: 0.4; cursor: default;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<p id="display">00:00.00</p>
+			<div id="buttons">
+				<button id="start">START</button>
+				<button id="stop" class="disabled">STOP</button>
+				<button id="reset" class="disabled">RESET</button>
+			</div>
+		</div>
+		<script>
+			const display = document.getElementById('display');
+			const startBtn = document.getElementById('start');
+			const stopBtn = document.getElementById('stop');
+			const resetBtn = document.getElementById('reset');
+			let totalMiliSeconds = 0;
+			let startedTime;
+			let passedTime = 0;
+			let timer;
+
+
+			stopBtn.disabled = true;
+			resetBtn.disabled = true;
+
+
+			function setDisplay() {
+				const totalMiliSeconds = new Date() - startedTime + passedTime;
+				const minutes = Math.floor(totalMiliSeconds / 1000 / 60);
+				const seconds = Math.floor(totalMiliSeconds / 1000) % 60;
+				const miliSeconds = Math.floor(totalMiliSeconds / 10) % 100;
+
+				const minutesFormatted = String(minutes).padStart(2, '0');
+				const secondsFormatted = String(seconds).padStart(2, '0');
+				const miliSecondsFormatted = String(miliSeconds).padStart(2, '0');
+				display.textContent = `${minutesFormatted}:${secondsFormatted}.${miliSecondsFormatted}`;
+			}
+
+
+			startBtn.addEventListener('click', () => {
+				startBtn.disabled = true;
+				startBtn.classList.add('disabled');
+				resetBtn.disabled = true;
+				resetBtn.classList.add('disabled');
+				stopBtn.disabled = false;
+				stopBtn.classList.remove('disabled');
+
+				startedTime = new Date();
+				timer = setInterval(setDisplay, 10)
+			});
+
+
+			stopBtn.addEventListener('click', () => {
+				stopBtn.disabled = true;
+				stopBtn.classList.add('disabled');
+				startBtn.disabled = false;
+				startBtn.classList.remove('disabled');
+				resetBtn.disabled = false;
+				resetBtn.classList.remove('disabled');
+
+				passedTime += new Date() - startedTime;
+				clearInterval(timer);
+			});
+
+
+			resetBtn.addEventListener('click', () => {
+				stopBtn.disabled = true;
+				stopBtn.classList.add('disabled');
+				resetBtn.disabled = true;
+				resetBtn.classList.add('disabled');
+				startBtn.disabled = false;
+				startBtn.classList.remove('disabled');
+
+				passedTime = 0;
+				display.textContent = '00:00.00';	
+			});
+		</script>
+	</body>
+</html>

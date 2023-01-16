@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>WORK25</title>
+	</head>
+	<body>
+		<div id="textbox">
+			<p id="element_1">要素1</p>
+		</div>
+		<input type="button" value="ボタン" id="button">
+		<script>
+			const button = document.getElementById('button');
+
+			button.addEventListener('click',() => {
+				const textbox = document.getElementById('textbox');
+				textbox.style.backgroundColor = '#ffff00';
+			});
+
+			button.addEventListener('click',() => {
+				const element_1 = document.getElementById('element_1');
+				const element_2 = document.createElement('p');
+
+				element_1.textContent = '変更後テキスト'
+				element_2.textContent = '追加テキスト';
+				element_2.style.color = '#ff0000';
+				element_2.style.fontSize = 30 + 'px';
+
+				element_1.after(element_2);
+			});
+		</script>
+	</body>
+</html>
