@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<title>TRY43</title>
+	</head>
+	<body>
+		<input type="button" value="ボタン" id="button">
+		<div class="ajax_result"></div>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			function get_data() {
+				$.ajax({
+					type."GET",
+					url: 'sample.txt',
+					async: true,
+				}).done(function(data, textStatus, jqXHR) {
+					$('.ajax_result').text($('.ajax_result').text() + data);
+				}).fail(function(jqXHR, textStatus, errorThrown) {
+					$('.ajax_result').text('エラーが発生しました。ステータス：' + jqXHR.status);
+				});
+			}
+
+			$('button').click(function() {
+				get_data();
+			});
+		</script>
+	</body>
+</html>

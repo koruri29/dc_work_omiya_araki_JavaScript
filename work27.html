@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+		<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script type="text/javascript" src="slick/slick.min.js"></script>
+		<style>
+			img {width: 200px;}
+		</style>
+		<title>WORK27</title>
+	</head>
+	<body>
+		<ul id="slider">
+			<li><img src="images/gallery01.jpg"></li>
+			<li><img src="images/gallery02.jpg"></li>
+			<li><img src="images/gallery03.jpg"></li>
+			<li><img src="images/gallery04.jpg"></li>
+		</ul>
+		<script>
+			$('#slider').slick({
+				infinite: true,
+				slidesToShow: 3,
+				slidesTocroll: 1,
+				autoplay: true,
+				autoplaySpeed: 500,
+			});
+		</script>
+	</body>
+</html>

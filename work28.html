@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+		<title>TRY39</title>
+	</head>
+	<body>
+		<div id="count_down">20</div>
+		<input type="button" id="start" value="スタート">
+		<script>
+			let timer;
+
+			function count_start() {
+				timer = setInterval('count_down()', 1000);
+			}
+			
+			function count_down() {
+				let sec = $('#count_down').text();
+
+				sec--;
+				if (sec <= 0) {
+					alert('時間です。');
+					$('#count_down').text(20);
+					clearInterval(timer);
+				} else {
+					$('#count_down').text(sec);
+				}
+			}
+
+			$('#start').click(count_start);
+		</script>
+	</body>
+</html>
