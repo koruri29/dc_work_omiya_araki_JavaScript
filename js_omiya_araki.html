@@ -118,11 +118,38 @@
 			}
 			
 
-			function twinkleStarsssss() {
+			function twinkleStar() {
 				display.textContent = japanese_scales[0];
 				setTimeout(() => {
 					display.textContent = japanese_scales[4];
 				}, 1000);
+			}
+			const twinkleStarArray1 = [0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4];
+			twinkleStarLapseArray = [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000]
+			function twinkleStar100000() {
+				let lapse = 0;
+				display.textContent = japanese_scales[twinkleStarArray1[0]];
+				for (let i = 0; i < twinkleStarLapseArray.length; i++) {
+					setTimeout(() => {
+						display.textContent = japanese_scales[i + 1];
+						lapse += twinkleStarLapseArray[i];
+					}, lapse);
+				}
+			}
+			function twinkleStar() {
+			let lapse = 0;
+				display.textContent = japanese_scales[0];
+				//ここから↓
+					lapse += 1000;
+					setTimeout(() => {
+						display.textContent = japanese_scales[4];
+					}, lapse);
+				//ここを関数化↑
+					lapse += 1000;
+				setTimeout(() => {
+					display.textContent = japanese_scales[5];
+				}, lapse);
+
 			}
 			//きらきら星
 			//パーツ１
@@ -195,14 +222,14 @@
 				await singleScaleEnd(2000);
 			}
 			//きらきら星(全体)
-			async function twinkleStar() {
-				await twinkleStar1();
-				await twinkleStar2();
-				await twinkleStar3();
-				await twinkleStar3();
-				await twinkleStar1();
-				await twinkleStar2();
-			}
+			// async function twinkleStar() {
+			// 	await twinkleStar1();
+			// 	await twinkleStar2();
+			// 	await twinkleStar3();
+			// 	await twinkleStar3();
+			// 	await twinkleStar1();
+			// 	await twinkleStar2();
+			// }
 
 
 			//チューリップ
@@ -314,7 +341,6 @@
 						autoplay.addEventListener('click', autoplayMusic);
 						song_title.textContent = '';
 						activateKeys();
-						return false;
 					}
 				});
 
