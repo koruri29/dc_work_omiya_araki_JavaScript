@@ -16,7 +16,7 @@
 			#scales{
 				display: flex; justify-content: center; margin: 0 auto;
 			}
-			.scale {
+			.key {
 				width:100px; height: 100px; margin: 0 10px;
 				border: 1px solid #ccc; line-height: 100px; vertical-align: middle; cursor: pointer;
 			}
@@ -36,13 +36,14 @@
 		<div id="song_title"></div>
 		<div id="display"></div>
 		<section id="scales">
-			<div id="do" class="scale">ド</div>
-			<div id="re" class="scale">レ</div>
-			<div id="mi" class="scale">ミ</div>
-			<div id="fa" class="scale">ファ</div>
-			<div id="so" class="scale">ソ</div>
-			<div id="la" class="scale">ラ</div>
-			<div id="si" class="scale">シ</div>
+			<div id="do" class="key">ド<audio src="./scales/piano_0_do.mp3" preload="auto" id="C"></audio></div>
+			<div id="re" class="key">レ<audio src="./scales/piano_1_re.mp3" preload="auto" id="D"></audio></div>
+			<div id="mi" class="key">ミ<audio src="./scales/piano_2_mi.mp3" preload="auto" id="E"></audio></div>
+			<div id="fa" class="key">ファ<audio src="./scales/piano_3_fa.mp3" preload="auto" id="F"></audio></div>
+			<div id="so" class="key">ソ<audio src="./scales/piano_4_so.mp3" preload="auto" id="G"></audio></div>
+			<div id="la" class="key">ラ<audio src="./scales/piano_5_la.mp3" preload="auto" id="A"></audio></div>
+			<div id="si" class="key">シ<audio src="./scales/piano_6_si.mp3" preload="auto" id="B"></audio></div>
+			<audio src="./scales/7.mp3" id="mute"></audio>
 		</section>
 		<button id="autoplay">自動演奏</button>
 	</main>
@@ -53,7 +54,7 @@
 			const scales = document.getElementById('scales');
 			const autoplay = document.getElementById('autoplay');
 			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '']
-			let scalesElems = [
+			const scalesElems = [
 				document.getElementById('do'),
 				document.getElementById('re'),
 				document.getElementById('mi'),
@@ -62,287 +63,129 @@
 				document.getElementById('la'),
 				document.getElementById('si'),
 			]
+			const audio = [
+				document.getElementById('C'),
+				document.getElementById('D'),
+				document.getElementById('E'),
+				document.getElementById('F'),
+				document.getElementById('G'),
+				document.getElementById('A'),
+				document.getElementById('B'),
+				document.getElementById('mute'),
+			]
 			let timer;
 
+			for (let i = 0; i < audio.length; i++) {
+				audio[i].currentTime = 0;
+			}
+			console.log(audio[0].readyState);
 
-			//scaleを押したときの単音演奏機能
-			function startSingleScale(event) {
+
+			// //Web audio API
+			// const audioContext = new AudioContext();
+			// let track = [];
+			// for (let i = 0; i < audio.length; i++) {
+			// 	track.push(audioContext.createMediaElementSource(audio[i]));
+			// }
+			// for (let i = 0; i < track.length; i++) {
+			// 	track[i].connect(audioContext.destination);
+			// }
+			// console.log(audioContext);
+
+
+			//divを押したときの単音演奏機能
+			//音が鳴っている間は他のキーも押せない
+			function playSingleScale(event) {
 				event.target.classList.add('inactive');
 				scales.removeEventListener('click', playSingleScale);
 				for (let i = 0; i < scalesElems.length; i++){
 					if (event.target === scalesElems[i]) {
+			// 			audioContext.resume();
+			// console.log(audioContext.state);
 						display.textContent = japanese_scales[i];
+						audio[i].play();
+						setTimeout(() => {
+							event.target.classList.remove('inactive');
+							scales.addEventListener('click', playSingleScale);
+							display.textContent = '';
+							audio[i].pause();
+						}, 1000, event, i);
 					}
 				}
 			}
-
-			function stopSingleScale(event) {
-				event.target.classList.remove('inactive');
-				scales.addEventListener('click', playSingleScale);
-				display.textContent = '';
-			}
-
-			function playSingleScale(event) {
-				startSingleScale(event);
-				setTimeout(stopSingleScale, "1000", event);
-			}
 			scales.addEventListener('click', playSingleScale);
-
 			
+
 			//自動演奏
-			//音を鳴らす
-			function singleScaleStart(i) {
-				return new Promise(resolve => {
-				for (let j = 0; j < scalesElems.length; j++) {
-					display.textContent = japanese_scales[i];
-					resolve();
+			//楽譜
+			const twinkleStarArray = [
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
+				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 1, 1, 1, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 1, 1, 1, 
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
+				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 
+			];
+
+			const tulipArray = [
+				0, 0, 1, 1, 2, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 2,
+				4, 4, 2, 2, 1, 1, 0, 0, 1, 1, 2, 2, 1, 1, 1, 1,
+				0, 0, 1, 1, 2, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 2,
+				4, 4, 2, 2, 1, 1, 0, 0, 1, 1, 2, 2, 0, 0, 0, 0,
+				4, 7, 4, 7, 2, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
+				2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+			]
+
+			
+			//自動演奏の型の関数
+			function createSong(musicArray, msec) {
+				let counter = 0;
+				const timer = setInterval(() => {
+					const sliced = musicArray.slice(counter, counter + 1)[0];
+					display.textContent = japanese_scales[sliced];
+					console.log(sliced);
+					audio[sliced].play();
+					if (counter < musicArray.length - 2) {
+						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0;
+					}
+					setTimeout(() => {
+						audio[sliced].pause();
+					}, msec);
+					counter++;
+					if (counter > musicArray.length) {
+						clearInterval(timer);
+						stopAutoplay();
+					}
+				}, msec);
 				}
-			});
-			}
-			//音を止める
-			function singleScaleEnd(msec) {
-				return new Promise(resolve => {
-					setTimeout(() => {
-						display.textContent = '';
-						resolve();
-					}, msec);
-				});
-			}
-			//休符
-			function rest(msec) {
-				return new Promise(resolve => {
-					setTimeout(() => {
-						resolve();
-					}, msec);
-				});
+
+
+			
+			//無効だったキーを有効にする関数
+			const activateKeys = () => {
+				for (let i = 0; i < scalesElems.length; i++) {
+					scalesElems[i].classList.remove('inactive');
+				}
+				scales.addEventListener('click', playSingleScale);
+			};
+
+
+			//自動演奏中止・終了時の挙動の関数
+			const stopAutoplay = () => {
+				autoplay.textContent = '自動演奏';
+				autoplay.addEventListener('click', autoplayMusic);
+				song_title.textContent = '';
+				clearInterval(timer);
+				activateKeys();
 			}
 			
 
-			function twinkleStar() {
-				display.textContent = japanese_scales[0];
-				setTimeout(() => {
-					display.textContent = japanese_scales[4];
-				}, 1000);
-			}
-			const twinkleStarArray1 = [0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4];
-			twinkleStarLapseArray = [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000]
-			function twinkleStar100000() {
-				let lapse = 0;
-				display.textContent = japanese_scales[twinkleStarArray1[0]];
-				for (let i = 0; i < twinkleStarLapseArray.length; i++) {
-					setTimeout(() => {
-						display.textContent = japanese_scales[i + 1];
-						lapse += twinkleStarLapseArray[i];
-					}, lapse);
-				}
-			}
-			function twinkleStar() {
-			let lapse = 0;
-				display.textContent = japanese_scales[0];
-				//ここから↓
-					lapse += 1000;
-					setTimeout(() => {
-						display.textContent = japanese_scales[4];
-					}, lapse);
-				//ここを関数化↑
-					lapse += 1000;
-				setTimeout(() => {
-					display.textContent = japanese_scales[5];
-				}, lapse);
-
-			}
-			//きらきら星
-			//パーツ１
-			 async function twinkleStar1() {
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(5);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(5);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(4);
-				await singleScaleEnd(2000);
-			}
-			//パーツ２
-			async function twinkleStar2() {
-				await singleScaleStart(3);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(3);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(0);
-				await singleScaleEnd(2000);
-			}
-			//パーツ３
-			async function twinkleStar3() {
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(3);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(3);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await rest(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(2000);
-			}
-			//きらきら星(全体)
-			// async function twinkleStar() {
-			// 	await twinkleStar1();
-			// 	await twinkleStar2();
-			// 	await twinkleStar3();
-			// 	await twinkleStar3();
-			// 	await twinkleStar1();
-			// 	await twinkleStar2();
-			// }
-
-
-			//チューリップ
-			async function tulip() {
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(1000);
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(1000);
-
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(1000);
-				
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(1000);
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(1000);
-
-				
-				await singleScaleStart(4);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(0);
-				await singleScaleEnd(500);
-				await singleScaleStart(1);
-				await singleScaleEnd(500);
-				await singleScaleStart(2);
-				await singleScaleEnd(500);
-				await singleScaleStart(0);
-				await singleScaleEnd(1000);
-
-				
-				await singleScaleStart(4);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(4);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(2);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(4);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(5);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(5);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(4);
-				await singleScaleEnd(1000);
-
-				await singleScaleStart(2);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(2);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(1);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(1);
-				await singleScaleEnd(250);
-				await rest(250);
-				await singleScaleStart(0);
-				await singleScaleEnd(4000);
-			}
-
-			
-			//自動演奏ボタンの挙動
-			const autoplayMusic = async () => {
+			//自動演奏ボタンの挙動の関数
+			const autoplayMusic = () => {
 				//自動演奏開始後、ボタンの挙動を変える
 				autoplay.textContent = '演奏中止';
 				autoplay.removeEventListener('click', autoplayMusic);
-				autoplay.addEventListener('click', (event) => {
-					if (event) {
-						autoplay.textContent = '自動演奏';
-						autoplay.addEventListener('click', autoplayMusic);
-						song_title.textContent = '';
-						activateKeys();
-					}
-				});
+				autoplay.addEventListener('click', stopAutoplay);
 
 				//自動演奏開始後、キーを無効にする
 				for (let i = 0; i < scalesElems.length; i++) {
@@ -353,38 +196,20 @@
 
 				//ランダムに自動演奏する
 				// const num = Math.floor(Math.random() * 2)
-				const num = 0;
+				const num = 1;
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
-					await twinkleStar();
+					createSong(twinkleStarArray, 500);
 				} else {
 					song_title.textContent = '演奏中です：チューリップ';
-					await tulip();
+					createSong(tulipArray, 250);
 				}
-
-
-				//キーを有効にする関数
-				const activateKeys = () => {
-					return new Promise(resolve => {
-						autoplay.classList.remove('inactive');
-						autoplay.disabled = false;
-
-						for (let i = 0; i < scalesElems.length; i++) {
-							scalesElems[i].classList.remove('inactive');
-						}
-						scales.addEventListener('click', playSingleScale);
-						resolve();
-					});
-				};
-				
-				autoplay.textContent = '自動演奏';
-				autoplay.addEventListener('click', autoplayMusic);
-				song_title.textContent = '';
-				//自動演奏終了後、キーを有効にする
-				await activateKeys();
 			}
 
 			autoplay.addEventListener('click', autoplayMusic);
+
+			//clearInterval効いてない問題
+			//音が途切れたり小さくなったりする問題
 		</script>
 	</body>
 </html>
