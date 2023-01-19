@@ -36,13 +36,13 @@
 		<div id="song_title"></div>
 		<div id="display"></div>
 		<section id="scales">
-			<div id="do" class="key">ド<audio src="./scales/piano_0_do.mp3" preload="auto" id="C"></audio></div>
-			<div id="re" class="key">レ<audio src="./scales/piano_1_re.mp3" preload="auto" id="D"></audio></div>
-			<div id="mi" class="key">ミ<audio src="./scales/piano_2_mi.mp3" preload="auto" id="E"></audio></div>
-			<div id="fa" class="key">ファ<audio src="./scales/piano_3_fa.mp3" preload="auto" id="F"></audio></div>
-			<div id="so" class="key">ソ<audio src="./scales/piano_4_so.mp3" preload="auto" id="G"></audio></div>
-			<div id="la" class="key">ラ<audio src="./scales/piano_5_la.mp3" preload="auto" id="A"></audio></div>
-			<div id="si" class="key">シ<audio src="./scales/piano_6_si.mp3" preload="auto" id="B"></audio></div>
+			<div id="do" class="key">ド</div>
+			<div id="re" class="key">レ</div>
+			<div id="mi" class="key">ミ</div>
+			<div id="fa" class="key">ファ</div>
+			<div id="so" class="key">ソ</div>
+			<div id="la" class="key">ラ</div>
+			<div id="si" class="key">シ</div>
 			<audio src="./scales/7.mp3" id="mute"></audio>
 		</section>
 		<button id="autoplay">自動演奏</button>
@@ -53,7 +53,7 @@
 			const display = document.getElementById('display');
 			const scales = document.getElementById('scales');
 			const autoplay = document.getElementById('autoplay');
-			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '']
+			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '', 'ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '']
 			const scalesElems = [
 				document.getElementById('do'),
 				document.getElementById('re'),
@@ -63,15 +63,41 @@
 				document.getElementById('la'),
 				document.getElementById('si'),
 			]
+			// const audio = [
+			// 	new Audio('./scales/piano_0_do.mp3'),
+			// 	new Audio('./scales/piano_1_re.mp3'),
+			// 	new Audio('./scales/piano_2_mi.mp3'),
+			// 	new Audio('./scales/piano_3_fa.mp3'),
+			// 	new Audio('./scales/piano_4_so.mp3'),
+			// 	new Audio('./scales/piano_5_la.mp3'),
+			// 	new Audio('./scales/piano_6_si.mp3'),
+			// 	new Audio('./scales/7.mp3'),
+			// 	new Audio('./scales/piano_8_do.mp3'),
+			// 	new Audio('./scales/piano_9_re.mp3'),
+			// 	new Audio('./scales/piano_10_mi.mp3'),
+			// 	new Audio('./scales/piano_11_fa.mp3'),
+			// 	new Audio('./scales/piano_12_so.mp3'),
+			// 	new Audio('./scales/piano_13_la.mp3'),
+			// 	new Audio('./scales/piano_14_si.mp3'),
+			// 	new Audio('./scales/15.mp3'),
+			// ]
 			const audio = [
-				document.getElementById('C'),
-				document.getElementById('D'),
-				document.getElementById('E'),
-				document.getElementById('F'),
-				document.getElementById('G'),
-				document.getElementById('A'),
-				document.getElementById('B'),
-				document.getElementById('mute'),
+				new Audio('./scales/00do.mp3'),
+				new Audio('./scales/10re.mp3'),
+				new Audio('./scales/20mi.mp3'),
+				new Audio('./scales/30fa.mp3'),
+				new Audio('./scales/40so.mp3'),
+				new Audio('./scales/50la.mp3'),
+				new Audio('./scales/60si.mp3'),
+				new Audio('./scales/70mute.mp3'),
+				new Audio('./scales/01do.mp3'),
+				new Audio('./scales/11re.mp3'),
+				new Audio('./scales/21mi.mp3'),
+				new Audio('./scales/31fa.mp3'),
+				new Audio('./scales/41so.mp3'),
+				new Audio('./scales/51la.mp3'),
+				new Audio('./scales/61si.mp3'),
+				new Audio('./scales/71mute.mp3'),
 			]
 			let timer;
 
@@ -119,12 +145,12 @@
 			//自動演奏
 			//楽譜
 			const twinkleStarArray = [
-				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
-				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 
-				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 1, 1, 1, 
-				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 1, 1, 1, 
-				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
-				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
+				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
+				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
 			];
 
 			const tulipArray = [
@@ -146,7 +172,7 @@
 					console.log(sliced);
 					audio[sliced].play();
 					if (counter < musicArray.length - 2) {
-						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0;
+						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0.1;
 					}
 					setTimeout(() => {
 						audio[sliced].pause();
@@ -196,7 +222,7 @@
 
 				//ランダムに自動演奏する
 				// const num = Math.floor(Math.random() * 2)
-				const num = 1;
+				const num = 0;
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
 					createSong(twinkleStarArray, 500);
