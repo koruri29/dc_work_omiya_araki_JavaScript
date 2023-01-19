@@ -43,7 +43,6 @@
 			<div id="so" class="key">ソ</div>
 			<div id="la" class="key">ラ</div>
 			<div id="si" class="key">シ</div>
-			<audio src="./scales/7.mp3" id="mute"></audio>
 		</section>
 		<button id="autoplay">自動演奏</button>
 	</main>
@@ -102,9 +101,8 @@
 			let timer;
 
 			for (let i = 0; i < audio.length; i++) {
-				audio[i].currentTime = 0;
+				audio[i].load()
 			}
-			console.log(audio[0].readyState);
 
 
 			// //Web audio API
@@ -122,12 +120,12 @@
 			//divを押したときの単音演奏機能
 			//音が鳴っている間は他のキーも押せない
 			function playSingleScale(event) {
-				event.target.classList.add('inactive');
 				scales.removeEventListener('click', playSingleScale);
 				for (let i = 0; i < scalesElems.length; i++){
 					if (event.target === scalesElems[i]) {
 			// 			audioContext.resume();
 			// console.log(audioContext.state);
+						scalesElems[i].classList.add('inactive');
 						display.textContent = japanese_scales[i];
 						audio[i].play();
 						setTimeout(() => {
@@ -154,39 +152,41 @@
 			];
 
 			const tulipArray = [
-				0, 0, 1, 1, 2, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 2,
-				4, 4, 2, 2, 1, 1, 0, 0, 1, 1, 2, 2, 1, 1, 1, 1,
-				0, 0, 1, 1, 2, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 2,
-				4, 4, 2, 2, 1, 1, 0, 0, 1, 1, 2, 2, 0, 0, 0, 0,
-				4, 7, 4, 7, 2, 7, 4, 7, 5, 7, 5, 7, 4, 4, 4, 4,
-				2, 7, 2, 7, 1, 7, 1, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+				0, 8, 1, 9, 2, 10, 2, 10, 0, 8, 1, 9, 2, 10, 2, 10,
+				4, 12, 2, 10, 1, 9, 0, 8, 1, 9, 2, 10, 1, 9, 1, 9,
+				0, 8, 1, 9, 2, 10, 2, 10, 0, 8, 1, 9, 2, 10, 2, 10,
+				4, 12, 2, 10, 1, 9, 0, 8, 1, 9, 2, 10, 0, 8, 0, 8,
+				4, 7, 4, 7, 2, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
+				2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8,
 			]
 
 			
-			//自動演奏の型の関数
-			function createSong(musicArray, msec) {
+			//自動演奏の型
+			function createSong(musicArray, msecTempo) {
 				let counter = 0;
-				const timer = setInterval(() => {
+				timer = setInterval(() => {
 					const sliced = musicArray.slice(counter, counter + 1)[0];
 					display.textContent = japanese_scales[sliced];
-					console.log(sliced);
+					// console.log(sliced)
 					audio[sliced].play();
 					if (counter < musicArray.length - 2) {
-						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0.1;
+						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 1;
 					}
+					//次の音に干渉しないように音を止める
 					setTimeout(() => {
 						audio[sliced].pause();
-					}, msec);
+					}, msecTempo);
+					console.log(timer);
 					counter++;
-					if (counter > musicArray.length) {
-						clearInterval(timer);
-						stopAutoplay();
-					}
-				}, msec);
+				}, msecTempo);
+				//自動で演奏を止める
+				setTimeout(() => {
+					clearInterval(timer);
+					stopAutoplay();
+				}, msecTempo * musicArray.length);
 				}
 
 
-			
 			//無効だったキーを有効にする関数
 			const activateKeys = () => {
 				for (let i = 0; i < scalesElems.length; i++) {
@@ -198,10 +198,11 @@
 
 			//自動演奏中止・終了時の挙動の関数
 			const stopAutoplay = () => {
-				autoplay.textContent = '自動演奏';
 				autoplay.addEventListener('click', autoplayMusic);
-				song_title.textContent = '';
 				clearInterval(timer);
+				autoplay.textContent = '自動演奏';
+				display.textContent ='';
+				song_title.textContent = '';
 				activateKeys();
 			}
 			
@@ -211,7 +212,7 @@
 				//自動演奏開始後、ボタンの挙動を変える
 				autoplay.textContent = '演奏中止';
 				autoplay.removeEventListener('click', autoplayMusic);
-				autoplay.addEventListener('click', stopAutoplay);
+				autoplay.addEventListener('click', stopAutoplay());
 
 				//自動演奏開始後、キーを無効にする
 				for (let i = 0; i < scalesElems.length; i++) {
@@ -221,8 +222,7 @@
 
 
 				//ランダムに自動演奏する
-				// const num = Math.floor(Math.random() * 2)
-				const num = 0;
+				const num = Math.floor(Math.random() * 2)
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
 					createSong(twinkleStarArray, 500);
@@ -233,9 +233,6 @@
 			}
 
 			autoplay.addEventListener('click', autoplayMusic);
-
-			//clearInterval効いてない問題
-			//音が途切れたり小さくなったりする問題
 		</script>
 	</body>
 </html>
