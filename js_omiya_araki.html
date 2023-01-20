@@ -54,7 +54,7 @@
 			const display = document.getElementById('display');
 			const scales = document.getElementById('scales');
 			const autoplay = document.getElementById('autoplay');
-			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '', 'ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '']
+			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '', 'ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', ''];//音源を2倍用意したためこちらも倍
 			const scalesElems = [
 				document.getElementById('do'),
 				document.getElementById('re'),
@@ -63,25 +63,7 @@
 				document.getElementById('so'),
 				document.getElementById('la'),
 				document.getElementById('si'),
-			]
-			// const audio = [
-			// 	new Audio('./scales/piano_0_do.mp3'),
-			// 	new Audio('./scales/piano_1_re.mp3'),
-			// 	new Audio('./scales/piano_2_mi.mp3'),
-			// 	new Audio('./scales/piano_3_fa.mp3'),
-			// 	new Audio('./scales/piano_4_so.mp3'),
-			// 	new Audio('./scales/piano_5_la.mp3'),
-			// 	new Audio('./scales/piano_6_si.mp3'),
-			// 	new Audio('./scales/7.mp3'),
-			// 	new Audio('./scales/piano_8_do.mp3'),
-			// 	new Audio('./scales/piano_9_re.mp3'),
-			// 	new Audio('./scales/piano_10_mi.mp3'),
-			// 	new Audio('./scales/piano_11_fa.mp3'),
-			// 	new Audio('./scales/piano_12_so.mp3'),
-			// 	new Audio('./scales/piano_13_la.mp3'),
-			// 	new Audio('./scales/piano_14_si.mp3'),
-			// 	new Audio('./scales/15.mp3'),
-			// ]
+			];
 			const audio = [
 				new Audio('./scales/00do.mp3'),
 				new Audio('./scales/10re.mp3'),
@@ -99,34 +81,20 @@
 				new Audio('./scales/51la.mp3'),
 				new Audio('./scales/61si.mp3'),
 				new Audio('./scales/71mute.mp3'),
-			]
-			let timer;
+			];
+			let timer;//setIntervalを管理するタイマー
 
+
+			//音をすぐ鳴らせるよう準備
 			for (let i = 0; i < audio.length; i++) {
 				audio[i].load()
 			}
 
 
-			// //Web audio API
-			// const audioContext = new AudioContext();
-			// let track = [];
-			// for (let i = 0; i < audio.length; i++) {
-			// 	track.push(audioContext.createMediaElementSource(audio[i]));
-			// }
-			// for (let i = 0; i < track.length; i++) {
-			// 	track[i].connect(audioContext.destination);
-			// }
-			// console.log(audioContext);
-
-
-			//divを押したときの単音演奏機能
-			//音が鳴っている間は他のキーも押せない
+			//keyを押したときの単音演奏機能
 			function playSingleScale(event) {
-				scales.removeEventListener('click', playSingleScale);
 				for (let i = 0; i < scalesElems.length; i++){
 					if (event.target === scalesElems[i]) {
-			// 			audioContext.resume();
-			// console.log(audioContext.state);
 						scalesElems[i].classList.add('inactive');
 						display.textContent = japanese_scales[i];
 						audio[i].play();
@@ -169,9 +137,6 @@
 					const sliced = musicArray.slice(counter, counter + 1)[0];
 					display.textContent = japanese_scales[sliced];
 					audio[sliced].play();
-					if (counter < musicArray.length - 2) {
-						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0;
-					}
 					//次の音に干渉しないように音を止める
 					setTimeout(() => {
 						audio[sliced].pause();
@@ -221,7 +186,6 @@
 
 				//ランダムに自動演奏する
 				const num = Math.floor(Math.random() * 2)
-				// const num = 0;
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
 					createSong(twinkleStarArray, 500);
