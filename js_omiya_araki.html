@@ -11,14 +11,16 @@
 			}
 			#display {
 				width: 280px; height: 160px; margin: 20px auto;
-				background-color: #ffffe0; color: #cd853f;line-height: 160px; vertical-align: middle; font-size: 28px;
+				background-color: #ffffe0; color: #cd853f;line-height: 160px;
+				vertical-align: middle; font-size: 28px;
 			}
 			#scales{
 				display: flex; justify-content: center; margin: 0 auto;
 			}
 			.key {
 				width:100px; height: 100px; margin: 0 10px;
-				border: 1px solid #ccc; line-height: 100px; vertical-align: middle; cursor: pointer;
+				border: 1px solid #ccc; line-height: 100px; vertical-align: middle;
+				cursor: pointer;
 			}
 			.inactive {
 				background-color: #f5f5f5 !important; cursor: default !important;
@@ -140,12 +142,11 @@
 			scales.addEventListener('click', playSingleScale);
 			
 
-			//自動演奏
 			//楽譜
 			const twinkleStarArray = [
 				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
 				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
-				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
+				12, 7, 12, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
 				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
 				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
 				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
@@ -167,21 +168,18 @@
 				timer = setInterval(() => {
 					const sliced = musicArray.slice(counter, counter + 1)[0];
 					display.textContent = japanese_scales[sliced];
-					// console.log(sliced)
 					audio[sliced].play();
 					if (counter < musicArray.length - 2) {
-						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 1;
+						audio[musicArray.slice(counter + 1, counter + 2)].currentTime = 0;
 					}
 					//次の音に干渉しないように音を止める
 					setTimeout(() => {
 						audio[sliced].pause();
 					}, msecTempo);
-					console.log(timer);
 					counter++;
 				}, msecTempo);
 				//自動で演奏を止める
 				setTimeout(() => {
-					clearInterval(timer);
 					stopAutoplay();
 				}, msecTempo * musicArray.length);
 				}
@@ -198,12 +196,12 @@
 
 			//自動演奏中止・終了時の挙動の関数
 			const stopAutoplay = () => {
-				autoplay.addEventListener('click', autoplayMusic);
 				clearInterval(timer);
 				autoplay.textContent = '自動演奏';
 				display.textContent ='';
 				song_title.textContent = '';
 				activateKeys();
+				autoplay.addEventListener('click', autoplayMusic);
 			}
 			
 
@@ -212,7 +210,7 @@
 				//自動演奏開始後、ボタンの挙動を変える
 				autoplay.textContent = '演奏中止';
 				autoplay.removeEventListener('click', autoplayMusic);
-				autoplay.addEventListener('click', stopAutoplay());
+				autoplay.addEventListener('click', stopAutoplay);
 
 				//自動演奏開始後、キーを無効にする
 				for (let i = 0; i < scalesElems.length; i++) {
@@ -223,6 +221,7 @@
 
 				//ランダムに自動演奏する
 				const num = Math.floor(Math.random() * 2)
+				// const num = 0;
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
 					createSong(twinkleStarArray, 500);
