@@ -111,43 +111,70 @@
 			
 
 			//楽譜
+			//音階
 			const twinkleStarArray = [
-				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4,
+				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 
+				12, 7, 12, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1,
+				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4,
 				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
-				12, 7, 12, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
-				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 9, 1, 9, 
-				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
-				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 
+			];
+			//音符(音の長さ)
+			//最初のsetTimeoutはゼロ秒で始めたいため、頭に0を足してある
+			const twinkleStarToneArray = [
+			0, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000,
+			500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000,
+			500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000,
+			500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000,
+			500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 2000,
+			500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 4000,
 			];
 
 			const tulipArray = [
-				0, 8, 1, 9, 2, 10, 2, 10, 0, 8, 1, 9, 2, 10, 2, 10,
-				4, 12, 2, 10, 1, 9, 0, 8, 1, 9, 2, 10, 1, 9, 1, 9,
-				0, 8, 1, 9, 2, 10, 2, 10, 0, 8, 1, 9, 2, 10, 2, 10,
-				4, 12, 2, 10, 1, 9, 0, 8, 1, 9, 2, 10, 0, 8, 0, 8,
-				4, 7, 4, 7, 2, 7, 4, 7, 5, 7, 5, 7, 4, 12, 4, 12,
-				2, 7, 2, 7, 1, 7, 1, 7, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0, 8,
+				0, 1, 2, 0, 1, 2,
+				4, 2, 1, 0, 1, 2, 1,
+				0, 1, 2, 0, 1, 2,
+				4, 2, 1, 0, 1, 2, 0,
+				4, 7, 4, 7, 2, 7, 4, 7, 5, 7, 5, 7, 4,
+				2, 7, 2, 7, 1, 7, 1, 7, 0,
+			]
+			const tulipToneArray = [
+				0, 500, 500, 1000, 500, 500, 1000, 
+				500, 500, 500, 500, 500, 500, 1000,
+				500, 500, 1000, 500, 500, 1000, 
+				500, 500, 500, 500, 500, 500, 1000,
+				250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 1000,
+				250, 250, 250, 250, 250, 250, 250, 250, 4000,
 			]
 
-			
+
 			//自動演奏の型
-			function createSong(musicArray, msecTempo) {
-				let counter = 0;
-				timer = setInterval(() => {
-					const sliced = musicArray.slice(counter, counter + 1)[0];
-					display.textContent = japanese_scales[sliced];
-					audio[sliced].play();
-					//次の音に干渉しないように音を止める
+			function createSong(musicArray, tonesArray) {
+				let timeKeeper = 0;
+				musicArray.forEach((e, i) => {
 					setTimeout(() => {
-						audio[sliced].pause();
-					}, msecTempo);
-					counter++;
-				}, msecTempo);
+						const sliced = musicArray.slice(i, i + 1)[0];
+						display.textContent = japanese_scales[sliced];
+						audio[sliced].play();
+						//次の音に干渉しないように音を止める
+						setTimeout(() => {
+							audio[sliced].pause();
+						}, tonesArray[i + 1]);
+						timeKeeper += tonesArray[i + 1]
+					}, timeKeeper);
+					timeKeeper += tonesArray[i + 1]	
+				});
 				//自動で演奏を止める
+				//曲全体の長さ
+				let musicLength = 0;
+				tonesArray.forEach(e => {
+					musicLength += e;
+				});
 				setTimeout(() => {
 					stopAutoplay();
-				}, msecTempo * musicArray.length);
-				}
+				}, musicLength);
+			}
 
 
 			//無効だったキーを有効にする関数
@@ -188,10 +215,10 @@
 				const num = Math.floor(Math.random() * 2)
 				if (num === 0) {
 					song_title.textContent = '演奏中です：きらきら星';
-					createSong(twinkleStarArray, 500);
+					createSong(twinkleStarArray, twinkleStarToneArray);
 				} else {
 					song_title.textContent = '演奏中です：チューリップ';
-					createSong(tulipArray, 250);
+					createSong(tulipArray, tulipToneArray);
 				}
 			}
 
