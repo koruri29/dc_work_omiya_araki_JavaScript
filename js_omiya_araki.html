@@ -54,7 +54,7 @@
 			const display = document.getElementById('display');
 			const scales = document.getElementById('scales');
 			const autoplay = document.getElementById('autoplay');
-			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', '', 'ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', ''];//音源を2倍用意したためこちらも倍
+			const japanese_scales = ['ド', 'レ', 'ミ', 'ファ', 'ソ', 'ラ', 'シ', ''];
 			const scalesElems = [
 				document.getElementById('do'),
 				document.getElementById('re'),
@@ -73,14 +73,6 @@
 				new Audio('./scales/50la.mp3'),
 				new Audio('./scales/60si.mp3'),
 				new Audio('./scales/70mute.mp3'),
-				new Audio('./scales/01do.mp3'),
-				new Audio('./scales/11re.mp3'),
-				new Audio('./scales/21mi.mp3'),
-				new Audio('./scales/31fa.mp3'),
-				new Audio('./scales/41so.mp3'),
-				new Audio('./scales/51la.mp3'),
-				new Audio('./scales/61si.mp3'),
-				new Audio('./scales/71mute.mp3'),
 			];
 			let timer;//setIntervalを管理するタイマー
 
@@ -115,7 +107,7 @@
 			const twinkleStarArray = [
 				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4,
 				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0, 
-				12, 7, 12, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 
+				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1, 
 				4, 7, 4, 7, 3, 7, 3, 7, 2, 7, 2, 7, 1,
 				0, 7, 0, 7, 4, 7, 4, 7, 5, 7, 5, 7, 4,
 				3, 7, 3, 7, 2, 7, 2, 7, 1, 7, 1, 7, 0,
