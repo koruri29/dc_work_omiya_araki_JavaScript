@@ -74,7 +74,7 @@
 				new Audio('./scales/60si.mp3'),
 				new Audio('./scales/70mute.mp3'),
 			];
-			let timer;//setIntervalを管理するタイマー
+			let timer;
 
 
 			//音をすぐ鳴らせるよう準備
@@ -92,7 +92,6 @@
 						audio[i].play();
 						setTimeout(() => {
 							event.target.classList.remove('inactive');
-							scales.addEventListener('click', playSingleScale);
 							display.textContent = '';
 							audio[i].pause();
 						}, 1000, event, i);
@@ -145,7 +144,7 @@
 			function createSong(musicArray, tonesArray) {
 				let timeKeeper = 0;
 				musicArray.forEach((e, i) => {
-					setTimeout(() => {
+					timer = setTimeout(() => {
 						const sliced = musicArray.slice(i, i + 1)[0];
 						display.textContent = japanese_scales[sliced];
 						audio[sliced].play();
