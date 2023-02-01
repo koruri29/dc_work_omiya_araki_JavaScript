@@ -74,7 +74,8 @@
 				new Audio('./scales/60si.mp3'),
 				new Audio('./scales/70mute.mp3'),
 			];
-			let timer;
+			let timer = 0;
+			let timerArray = [];
 
 
 			//音をすぐ鳴らせるよう準備
@@ -143,8 +144,10 @@
 			//自動演奏の型
 			function createSong(musicArray, tonesArray) {
 				let timeKeeper = 0;
+				timer = 0;
+				timerArray = [];
 				musicArray.forEach((e, i) => {
-					timer = setTimeout(() => {
+						timer = setTimeout(() => {
 						const sliced = musicArray.slice(i, i + 1)[0];
 						display.textContent = japanese_scales[sliced];
 						audio[sliced].play();
@@ -154,6 +157,7 @@
 						}, tonesArray[i + 1]);
 						timeKeeper += tonesArray[i + 1]
 					}, timeKeeper);
+					timerArray.push(timer);
 					timeKeeper += tonesArray[i + 1]	
 				});
 				//自動で演奏を止める
@@ -178,39 +182,47 @@
 
 
 			//自動演奏中止・終了時の挙動の関数
+			let arrayLengthNum = twinkleStarArray.length;
 			const stopAutoplay = () => {
-				clearInterval(timer);
 				autoplay.textContent = '自動演奏';
 				display.textContent ='';
 				song_title.textContent = '';
 				activateKeys();
 				autoplay.addEventListener('click', autoplayMusic);
 			}
+			function breakAutoplay(e) {
+				for (let i = 0; i < this.length; i++) {
+					clearInterval(timerArray[i]);
+				}
+			}
 			
 
 			//自動演奏ボタンの挙動の関数
 			const autoplayMusic = () => {
+				//ランダムに自動演奏する
+				const num = Math.floor(Math.random() * 2)
+				if (num === 0) {
+					song_title.textContent = '演奏中です：きらきら星';
+					createSong(twinkleStarArray, twinkleStarToneArray);
+					arrayLengthNum = twinkleStarArray.length;
+				} else {
+					song_title.textContent = '演奏中です：チューリップ';
+					createSong(tulipArray, tulipToneArray);
+					arrayLengthNum = tulipArray.length;
+				}
+
+
 				//自動演奏開始後、ボタンの挙動を変える
 				autoplay.textContent = '演奏中止';
 				autoplay.removeEventListener('click', autoplayMusic);
 				autoplay.addEventListener('click', stopAutoplay);
+				autoplay.addEventListener('click', {length: arrayLengthNum, handleEvent:breakAutoplay});
 
 				//自動演奏開始後、キーを無効にする
 				for (let i = 0; i < scalesElems.length; i++) {
 					scalesElems[i].classList.add('inactive');
 				}
 				scales.removeEventListener('click', playSingleScale);
-
-
-				//ランダムに自動演奏する
-				const num = Math.floor(Math.random() * 2)
-				if (num === 0) {
-					song_title.textContent = '演奏中です：きらきら星';
-					createSong(twinkleStarArray, twinkleStarToneArray);
-				} else {
-					song_title.textContent = '演奏中です：チューリップ';
-					createSong(tulipArray, tulipToneArray);
-				}
 			}
 
 			autoplay.addEventListener('click', autoplayMusic);
